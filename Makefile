@@ -5,7 +5,7 @@ CFLAGS=-Wall -std=gnu++0x -g -I/usr/include -Iinclude
 
 PHONY: all
 
-all: Entity.o Game.o Texture.o main.o
+all: Entity.o Game.o Texture.o RenderComponent.o main.o
 	$(CC) $(CFLAGS) -o $(PROJECT) $^ $(LFLAGS)
 
 $.o: $.cpp

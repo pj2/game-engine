@@ -5,7 +5,7 @@ Author: Joshua Prendergast */
 
 namespace sight {
 
-Texture::Texture(SDL_Renderer *renderer, const std::string &filename) {
+Texture::Texture(SDL_Renderer *renderer, const std::string &filename) : texture(NULL) {
     load(renderer, filename);
 }
 
@@ -15,13 +15,25 @@ Texture::~Texture() {
 
 int Texture::load(SDL_Renderer *renderer, const std::string &filename) {
     SDL_Surface *surface = IMG_Load(filename.c_str());
-    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    if (surface) {
+    	/* Fill render rects */
+    	srcR.x = dstR.x = 0;
+    	srcR.y = dstR.y = 0;
+    	srcR.w = dstR.w = surface->w;
+    	srcR.h = dstR.h = surface->h;
 
-    SDL_FreeSurface(surface);
+    	texture = SDL_CreateTextureFromSurface(renderer, surface);
+    	SDL_FreeSurface(surface);
+    	return 1;
+    }
+    return 0;
 }
 
-void Texture::render(SDL_Renderer *renderer) {
-    SDL_RenderCopy(renderer, )
+void Texture::render(SDL_Renderer *renderer, Vector2f &pos) {
+    dstR.x = pos.x;
+    dstR.y = pos.y;
+    
+	SDL_RenderCopy(renderer, texture, srcR, dstR);
 }
 
 }

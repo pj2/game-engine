@@ -16,11 +16,12 @@ public:
 	Game();
 	~Game();
 	void mainLoop();
+	void addEntity(Entity *entity);
 	static Texture *loadTexture(SDL_Renderer *renderer, const std::string &filename);
 protected:
 	int createWindow();
 	void handleWindowEvents();
-	void renderFrame();
+	void nextFrame();
 private:
 	SDL_Window *window;
 	SDL_Renderer *renderer;

@@ -13,7 +13,7 @@ class Entity;
 
 class RenderComponent : public Renderable, public Component {
 public:
-	RenderComponent(Entity *owner);
+	RenderComponent(Entity *owner) : Component(owner);
 };
 
 }

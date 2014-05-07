@@ -5,19 +5,19 @@ Author: Joshua Prendergast */
 
 namespace sight {
 
-Entity::Entity(RenderComponent *renderc) : renderc(renderc) {
+Entity::Entity(Game *game, RenderComponent *renderc) : game(game), renderc(renderc) {
 }
 
 Entity::~Entity() {
+    delete renderc;
 }
 
 void Entity::update() {
-    
 }
 
-void Entity::render(SDL_Window &window) {
+void Entity::render(SDL_Renderer *renderer) {
     if (renderc) 
-            renderc->render(window);
+        renderc->render(renderer);
 }
 
 }

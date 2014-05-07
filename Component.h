@@ -6,9 +6,13 @@ Author: Joshua Prendergast */
 
 namespace sight {
 
+class Entity;
+
 class Component {
+public:
+    Component(Entity *owner) : owner(owner);
 private:
-	Entity *owner;
+    Entity *owner;
 };
 
 }

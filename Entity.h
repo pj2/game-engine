@@ -11,11 +11,12 @@ namespace sight {
 
 class Entity {
 public:
-    Entity(RenderComponent *renderc);
+    Entity(Game *game, RenderComponent *renderc);
     virtual ~Entity();
     virtual void update();
-    virtual void render(SDL_Window &window);
+    virtual void render(SDL_Renderer *window);
 private:
+    Game *game;
     RenderComponent *renderc;
 };
 

@@ -22,6 +22,7 @@ Game::~Game() {
         delete *it;
     }
 
+    SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
 }
@@ -47,8 +48,12 @@ void Game::mainLoop() {
     running = true;
     while (running) {
         handleWindowEvents();
-        renderFrame();
+        nextFrame();
     }
+}
+
+void Game::addEntity(Entity *entity) {
+    entities.push_back(entity);
 }
 
 void Game::handleWindowEvents() {
@@ -60,8 +65,15 @@ void Game::handleWindowEvents() {
     }
 }
 
-void Game::renderFrame() {
+void Game::nextFrame() {
     SDL_RenderClear(renderer);
+
+    for (std::list<Entity *>::iterator it = entities.begin(); it != entities.end(); ++it) {
+        (*it)->update();
+        (*it)->render(renderer);
+    }
+
+    SDL_RenderPresent(renderer);
 }
 
 Texture *Game::loadTexture(SDL_Renderer *renderer, const std::string &filename) {
