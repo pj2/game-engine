@@ -15,11 +15,12 @@ class Game {
 public:
 	Game();
 	~Game();
+	void start();
 	void mainLoop();
-	void addEntity(Entity *entity);
-	static Texture *loadTexture(SDL_Renderer *renderer, const std::string &filename);
+	Entity *addEntity(Entity *entity);
+	SDL_Renderer *getRenderer() const { return renderer; };
 protected:
-	int createWindow();
+	void createWindow();
 	void handleWindowEvents();
 	void nextFrame();
 private:
@@ -27,7 +28,6 @@ private:
 	SDL_Renderer *renderer;
 	bool running;
 	std::list<Entity *> entities;
-	static std::map<std::string, Texture *> textures;
 };
 
 }

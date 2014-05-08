@@ -10,7 +10,9 @@ class Entity;
 
 class Component {
 public:
-    Component(Entity *owner) : owner(owner);
+    Component(Entity *owner);
+    virtual ~Component() {};
+    virtual int getType() const = 0; // Returns a unique type identifier
 private:
     Entity *owner;
 };

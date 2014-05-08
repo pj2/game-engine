@@ -2,6 +2,7 @@
 Author: Joshua Prendergast */
 
 #include "util.h"
+#include <SDL2/SDL.h>
 
 namespace sight {
 

@@ -2,14 +2,13 @@ CC=g++
 PROJECT=sight-reader
 LFLAGS=-L/usr/lib64 -lm -lSDL2 -lSDL2_image
 CFLAGS=-Wall -std=gnu++0x -g -I/usr/include -Iinclude
+OBJS=$(patsubst %.cpp,%.o,$(wildcard *.cpp))
 
-PHONY: all
+all: $(OBJS)
+	$(CC) -o $(PROJECT) $^ $(LFLAGS) $(CFLAGS)
 
-all: Entity.o Game.o Texture.o RenderComponent.o main.o
-	$(CC) $(CFLAGS) -o $(PROJECT) $^ $(LFLAGS)
-
-$.o: $.cpp
-	$(CC) -c -o $< $(CFLAGS)
+%.o: %.cpp
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
 	rm -f *.o

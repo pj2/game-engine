@@ -3,10 +3,10 @@ Author: Joshua Prendergast */
 
 #include "Game.h"
 #include <stdexcept>
+#include "Background.h"
+#include "Stave.h"
 
 namespace sight {
-
-std::map<std::string, Texture *> Game::textures;
 
 Game::Game() : window(NULL), renderer(NULL), entities() {
     SDL_Init(SDL_INIT_VIDEO);
@@ -15,10 +15,7 @@ Game::Game() : window(NULL), renderer(NULL), entities() {
 
 Game::~Game() {
     /* Cleanup allocated memory */
-    for (std::map<std::string, Texture *>::iterator it = textures.begin(); it != textures.end(); ++it) {
-        delete it->second;
-    }
-    for (std::list<Entity *>::iterator it = entities.begin(); it != entities.end(); ++it) {
+    for (auto it = entities.begin(); it != entities.end(); ++it) {
         delete *it;
     }
 
@@ -28,7 +25,7 @@ Game::~Game() {
 }
 
 /* Creates the game window and renderer. */
-int Game::createWindow() {
+void Game::createWindow() {
     window = SDL_CreateWindow("sight-reader",
         SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
@@ -37,11 +34,18 @@ int Game::createWindow() {
         SDL_WINDOW_OPENGL);
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
     if (!window || !renderer) {
         throw std::runtime_error("failed to create window / renderer");
     }
+}
+
+void Game::start() {
+    /* Register entities */
+    // addEntity(new Background(this));
+    addEntity(new Stave(this))->setPosition(20, 50);
+
+    mainLoop();
 }
 
 void Game::mainLoop() {
@@ -52,8 +56,9 @@ void Game::mainLoop() {
     }
 }
 
-void Game::addEntity(Entity *entity) {
+Entity *Game::addEntity(Entity *entity) {
     entities.push_back(entity);
+    return entity;
 }
 
 void Game::handleWindowEvents() {
@@ -66,21 +71,15 @@ void Game::handleWindowEvents() {
 }
 
 void Game::nextFrame() {
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
 
-    for (std::list<Entity *>::iterator it = entities.begin(); it != entities.end(); ++it) {
+    for (auto it = entities.begin(); it != entities.end(); ++it) {
         (*it)->update();
         (*it)->render(renderer);
     }
 
     SDL_RenderPresent(renderer);
-}
-
-Texture *Game::loadTexture(SDL_Renderer *renderer, const std::string &filename) {
-    if (textures.find(filename) == textures.end()) {
-        textures[filename] = new Texture(renderer, filename);
-    }
-    return textures[filename];
 }
 
 }

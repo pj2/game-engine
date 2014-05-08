@@ -7,7 +7,7 @@ using namespace sight;
 
 int main(int argc, char **argv) {
     Game game;
-    game.mainLoop();
+    game.start();
 
     return 0;
 }
