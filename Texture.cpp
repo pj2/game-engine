@@ -25,7 +25,7 @@ int Texture::load(SDL_Renderer *renderer, const std::string &filename) {
     	srcR.w = dstR.w = surface->w;
     	srcR.h = dstR.h = surface->h;
 
-        memcpy(&dimensions, &srcR, sizeof(SDL_Rect));
+        memcpy(&originalDimensions, &srcR, sizeof(SDL_Rect));
 
     	texture = SDL_CreateTextureFromSurface(renderer, surface);
     	SDL_FreeSurface(surface);
@@ -42,8 +42,8 @@ void Texture::render(SDL_Renderer *renderer, Vector2f &pos) {
 	SDL_RenderCopy(renderer, texture, &srcR, &dstR);
 }
 
-SDL_Rect &Texture::getDimensions() {
-    return dimensions;
+SDL_Rect &Texture::getOriginalDimensions() {
+    return originalDimensions;
 }
 
 void Texture::setSrcSubRect(SDL_Rect &srcR) {
@@ -60,6 +60,14 @@ void Texture::setOffset(Vector2f &offset) {
 
 Vector2f &Texture::getOffset() {
     return offset;
+}
+
+SDL_Rect &Texture::getSrcSubRect() {
+    return srcR;
+}
+
+SDL_Rect &Texture::getDstSubRect() {
+    return dstR;
 }
 
 }

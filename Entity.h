@@ -1,4 +1,4 @@
-/* Entity.cpp
+/* Entity.h
 Author: Joshua Prendergast */
 
 #ifndef ENTITY_H
@@ -25,7 +25,6 @@ public:
     Vector2f &getPosition();
 protected:
     Vector2f pos;
-private:
     Game *game;
     std::multimap<int, Component *> components;
 };

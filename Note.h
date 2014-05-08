@@ -5,14 +5,16 @@ Author: Joshua Prendergast */
 #define NOTE_H
 
 #include "Game.h"
-#include "Entity.h"
+#include "ParentableEntity.h"
 
 namespace sight {
 
-class Note : public Entity {
+class Note : public ParentableEntity {
 public:
-    Note(Game *game);
+    Note(Game *game, Entity *parent, int value);
     ~Note();
+private:
+    int value;
 };
 
 }

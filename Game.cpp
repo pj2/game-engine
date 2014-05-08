@@ -30,7 +30,7 @@ void Game::createWindow() {
         SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
         800,
-        600,
+        300,
         SDL_WINDOW_OPENGL);
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -43,7 +43,7 @@ void Game::createWindow() {
 void Game::start() {
     /* Register entities */
     // addEntity(new Background(this));
-    addEntity(new Stave(this))->setPosition(20, 50);
+    addEntity(new Stave(this))->setPosition(20, 20);
 
     mainLoop();
 }

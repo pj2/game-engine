@@ -6,6 +6,8 @@ Author: Joshua Prendergast */
 
 #include "Entity.h"
 #include "Game.h"
+#include "Arrangement.h"
+#include "Note.h"
 #include <vector>
 
 namespace sight {
@@ -15,9 +17,13 @@ public:
     Stave(Game *game);
     ~Stave();
     void update();
+    void start();
+    void refreshArrangement();
+    void destroyNotes();
 private:
-    int length;
-    std::vector<int> notes;
+    Arrangement arrangement;
+    std::vector<Note *> notes;
+    Texture *staveTexture;
 };
 
 }

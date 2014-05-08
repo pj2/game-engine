@@ -8,8 +8,8 @@ Author: Joshua Prendergast */
 
 namespace sight {
 
-Note::Note(Game *game) : Entity(game) {
-    addComponent(new RenderComponent(this, new Texture(game->getRenderer(), "note.png")));
+Note::Note(Game *game, Entity *parent, int value) : ParentableEntity(game, parent), value(value) {
+    addComponent(new RenderComponent(this, new Texture(game->getRenderer(), "crochet.png")));
 }
 
 Note::~Note() {
