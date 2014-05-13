@@ -23,7 +23,8 @@ public:
 private:
     Arrangement arrangement;
     std::vector<Note *> notes;
-    Texture *staveTexture;
+    int currentNote;
+    bool running;
 };
 
 }

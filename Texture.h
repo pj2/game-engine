@@ -25,7 +25,10 @@ public:
     SDL_Rect &getSrcSubRect();
     SDL_Rect &getDstSubRect();
     void setOffset(Vector2f &offset);
+    void setOffset(float x, float y);
     Vector2f &getOffset();
+    void setBlendMode(SDL_BlendMode blendMode);
+    SDL_BlendMode getBlendMode();
     static const std::string TEXTURE_FOLDER;
 private:
     SDL_Texture *texture;

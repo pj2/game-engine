@@ -10,6 +10,7 @@ const std::string Texture::TEXTURE_FOLDER = "textures/";
 
 Texture::Texture(SDL_Renderer *renderer, const std::string &filename) : texture(NULL) {
     load(renderer, filename);
+    setBlendMode(SDL_BLENDMODE_BLEND);
 }
 
 Texture::~Texture() {
@@ -58,6 +59,11 @@ void Texture::setOffset(Vector2f &offset) {
     this->offset = offset;
 }
 
+void Texture::setOffset(float x, float y) {
+    this->offset.x = x;
+    this->offset.y = y;
+}
+
 Vector2f &Texture::getOffset() {
     return offset;
 }
@@ -68,6 +74,16 @@ SDL_Rect &Texture::getSrcSubRect() {
 
 SDL_Rect &Texture::getDstSubRect() {
     return dstR;
+}
+
+void Texture::setBlendMode(SDL_BlendMode blendMode) {
+    SDL_SetTextureBlendMode(texture, blendMode);
+}
+
+SDL_BlendMode Texture::getBlendMode() {
+    SDL_BlendMode out;
+    SDL_GetTextureBlendMode(texture, &out);
+    return out;
 }
 
 }

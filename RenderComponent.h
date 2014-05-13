@@ -21,8 +21,12 @@ public:
     ~RenderComponent();
     void render(SDL_Renderer *renderer, Vector2f &pos);
     int getType() const;
+    void setVisible(bool visible);
+    bool getVisible();
+    Renderable *getRenderable();
 private:
     Renderable *renderable;
+    bool visible;
 };
 
 }

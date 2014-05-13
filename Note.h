@@ -5,16 +5,19 @@ Author: Joshua Prendergast */
 #define NOTE_H
 
 #include "Game.h"
-#include "ParentableEntity.h"
+#include "AnchorableEntity.h"
+#include "RenderComponent.h"
 
 namespace sight {
 
-class Note : public ParentableEntity {
+class Note : public AnchorableEntity {
 public:
     Note(Game *game, Entity *parent, int value);
     ~Note();
+    void setHighlight(bool highlight);
 private:
     int value;
+    RenderComponent *marker;
 };
 
 }

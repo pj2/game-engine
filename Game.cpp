@@ -16,7 +16,8 @@ Game::Game() : window(NULL), renderer(NULL), entities() {
 Game::~Game() {
     /* Cleanup allocated memory */
     for (auto it = entities.begin(); it != entities.end(); ++it) {
-        delete *it;
+        if ((*it)->isAutoDelete())
+            delete *it;
     }
 
     SDL_DestroyRenderer(renderer);
