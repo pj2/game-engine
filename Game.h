@@ -7,6 +7,7 @@ Author: Joshua Prendergast */
 #include <SDL2/SDL.h>
 #include "Texture.h"
 #include "Entity.h"
+#include "Font.h"
 #include <list>
 
 namespace sight {
@@ -18,7 +19,8 @@ public:
 	void start();
 	void mainLoop();
 	Entity *addEntity(Entity *entity);
-	SDL_Renderer *getRenderer() const { return renderer; };
+	SDL_Renderer *getRenderer() const;
+	Font *getStdFont();
 protected:
 	void createWindow();
 	void handleWindowEvents();
@@ -28,6 +30,7 @@ private:
 	SDL_Renderer *renderer;
 	bool running;
 	std::list<Entity *> entities;
+	Font *stdFont;
 };
 
 }

@@ -6,7 +6,6 @@ Author: Joshua Prendergast */
 
 #include "Entity.h"
 #include "Game.h"
-#include "Arrangement.h"
 #include "Note.h"
 #include <vector>
 
@@ -19,11 +18,10 @@ public:
     void update();
     void start();
     void refreshArrangement();
-    void destroyNotes();
 private:
-    Arrangement arrangement;
     std::vector<Note *> notes;
     int currentNote;
+    int length;
     bool running;
 };
 

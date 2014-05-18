@@ -5,18 +5,27 @@ Author: Joshua Prendergast */
 #define NOTE_CPP
 
 #include "Note.h"
+#include "Text.h"
 
 namespace sight {
 
-Note::Note(Game *game, Entity *parent, int value) : AnchorableEntity(game, parent), value(value) {
+std::string Note::NOTES[] = {"C", "D", "E", "F", "G", "A", "B"};
+
+Note::Note(Game *game, Entity *parent, int value, int modifiers) : AnchorableEntity(game, parent), value(value), modifiers(modifiers) {
     addComponent(new RenderComponent(this, new Texture(game->getRenderer(), "crochet.png")));
 
-    Texture *tex = new Texture(game->getRenderer(), "marker.png");
-    tex->setOffset(10, -15);
+    Texture *texture = new Texture(game->getRenderer(), "marker.png");
+    texture->setPosition(10, -15);
 
-    marker = new RenderComponent(this, tex);
+    marker = new RenderComponent(this, texture);
     marker->setVisible(false);
     addComponent(marker);
+
+    Text *text = new Text(game->getRenderer(), game->getStdFont(), Note::getNoteName(value, modifiers));
+    text->setPosition(10, 70);
+
+    label = new RenderComponent(this, text);
+    addComponent(label);
 }
 
 Note::~Note() {
@@ -24,6 +33,10 @@ Note::~Note() {
 
 void Note::setHighlight(bool highlight) {
     marker->setVisible(highlight);
+}
+
+std::string Note::getNoteName(int value, int modifiers) {
+    return NOTES[value % 7];
 }
 
 }

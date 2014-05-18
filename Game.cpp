@@ -2,15 +2,19 @@
 Author: Joshua Prendergast */
 
 #include "Game.h"
-#include <stdexcept>
 #include "Background.h"
 #include "Stave.h"
+#include <stdexcept>
+#include <SDL2/SDL_ttf.h>
 
 namespace sight {
 
 Game::Game() : window(NULL), renderer(NULL), entities() {
     SDL_Init(SDL_INIT_VIDEO);
     createWindow();
+
+    TTF_Init();
+    stdFont = new Font("fonts/Aaargh.ttf", 16);
 }
 
 Game::~Game() {
@@ -19,10 +23,12 @@ Game::~Game() {
         if ((*it)->isAutoDelete())
             delete *it;
     }
+    delete stdFont;
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
+    TTF_Quit();
 }
 
 /* Creates the game window and renderer. */
@@ -81,6 +87,14 @@ void Game::nextFrame() {
     }
 
     SDL_RenderPresent(renderer);
+}
+
+SDL_Renderer *Game::getRenderer() const {
+    return renderer;
+}
+
+Font *Game::getStdFont() {
+    return stdFont;
 }
 
 }

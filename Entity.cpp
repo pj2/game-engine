@@ -21,7 +21,7 @@ void Entity::update() {
 void Entity::render(SDL_Renderer *renderer) {
     auto pair = components.equal_range(COMPONENT_RENDER);
     for (auto it = pair.first; it != pair.second; ++it) {
-        ((RenderComponent *) it->second)->render(renderer, pos);
+        ((RenderComponent *) it->second)->render();
     }
 }
 

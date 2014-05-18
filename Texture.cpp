@@ -8,72 +8,49 @@ namespace sight {
 
 const std::string Texture::TEXTURE_FOLDER = "textures/";
 
-Texture::Texture(SDL_Renderer *renderer, const std::string &filename) : texture(NULL) {
-    load(renderer, filename);
-    setBlendMode(SDL_BLENDMODE_BLEND);
+Texture::Texture(SDL_Renderer *renderer) : Renderable(renderer), texture(NULL) {
+}
+
+Texture::Texture(SDL_Renderer *renderer, SDL_Surface *surface) : Renderable(renderer) {
+    createTexture(surface);
+}
+
+Texture::Texture(SDL_Renderer *renderer, const std::string &filename) : Renderable(renderer) {
+    createTexture(filename);
 }
 
 Texture::~Texture() {
     SDL_DestroyTexture(texture);
 }
 
-int Texture::load(SDL_Renderer *renderer, const std::string &filename) {
-    SDL_Surface *surface = IMG_Load((TEXTURE_FOLDER + filename).c_str());
+void Texture::createTexture(SDL_Surface *surface) {
     if (surface) {
-    	/* Fill render rects */
-    	srcR.x = dstR.x = 0;
-    	srcR.y = dstR.y = 0;
-    	srcR.w = dstR.w = surface->w;
-    	srcR.h = dstR.h = surface->h;
+        /* Fill render rects */
+        setWidth(surface->w);
+        setHeight(surface->h);
 
-        memcpy(&originalDimensions, &srcR, sizeof(SDL_Rect));
+        texture = SDL_CreateTextureFromSurface(getRenderer(), surface);
 
-    	texture = SDL_CreateTextureFromSurface(renderer, surface);
-    	SDL_FreeSurface(surface);
-    	return 1;
+        setBlendMode(SDL_BLENDMODE_BLEND);
+    } else {
+        throw std::runtime_error("failed to load texture");
     }
-    printSdlError();
-    return 0;
 }
 
-void Texture::render(SDL_Renderer *renderer, Vector2f &pos) {
-    dstR.x = pos.x + offset.x;
-    dstR.y = pos.y + offset.y;
+void Texture::createTexture(const std::string &filename) {
+    SDL_Surface *surf = IMG_Load((TEXTURE_FOLDER + filename).c_str()); // Load surface from image file
     
-	SDL_RenderCopy(renderer, texture, &srcR, &dstR);
+    createTexture(surf);
+    SDL_FreeSurface(surf);
 }
 
-SDL_Rect &Texture::getOriginalDimensions() {
-    return originalDimensions;
-}
+void Texture::render(Vector2f pos) {
+    SDL_Rect r = getDstRect();
+    r.x += pos.x;
+    r.y += pos.y;
 
-void Texture::setSrcSubRect(SDL_Rect &srcR) {
-    memcpy(&this->srcR, &srcR, sizeof(SDL_Rect));
-}
-
-void Texture::setDstSubRect(SDL_Rect &dstR) {
-    memcpy(&this->dstR, &dstR, sizeof(SDL_Rect));
-}
-
-void Texture::setOffset(Vector2f &offset) {
-    this->offset = offset;
-}
-
-void Texture::setOffset(float x, float y) {
-    this->offset.x = x;
-    this->offset.y = y;
-}
-
-Vector2f &Texture::getOffset() {
-    return offset;
-}
-
-SDL_Rect &Texture::getSrcSubRect() {
-    return srcR;
-}
-
-SDL_Rect &Texture::getDstSubRect() {
-    return dstR;
+    if (texture)
+        SDL_RenderCopy(getRenderer(), texture, getSrcRect(), &r);
 }
 
 void Texture::setBlendMode(SDL_BlendMode blendMode) {

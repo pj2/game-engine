@@ -13,7 +13,7 @@ public:
     Component(Entity *owner);
     virtual ~Component() {};
     virtual int getType() const = 0; // Returns a unique type identifier
-private:
+protected:
     Entity *owner;
 };
 

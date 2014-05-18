@@ -15,26 +15,18 @@ namespace sight {
 
 class Texture : public Renderable {
 public:
+    Texture(SDL_Renderer *renderer);
+    Texture(SDL_Renderer *renderer, SDL_Surface *surface);
     Texture(SDL_Renderer *renderer, const std::string &filename);
     ~Texture();
-    int load(SDL_Renderer *renderer, const std::string &filename);
-    virtual void render(SDL_Renderer *renderer, Vector2f &pos);
-    SDL_Rect &getOriginalDimensions();
-    void setSrcSubRect(SDL_Rect &srcR);
-    void setDstSubRect(SDL_Rect &dstR);
-    SDL_Rect &getSrcSubRect();
-    SDL_Rect &getDstSubRect();
-    void setOffset(Vector2f &offset);
-    void setOffset(float x, float y);
-    Vector2f &getOffset();
+    virtual void render(Vector2f pos);
+    void createTexture(SDL_Surface *surface);
+    void createTexture(const std::string &filename);
     void setBlendMode(SDL_BlendMode blendMode);
     SDL_BlendMode getBlendMode();
     static const std::string TEXTURE_FOLDER;
 private:
     SDL_Texture *texture;
-    SDL_Rect srcR, dstR;
-    SDL_Rect originalDimensions;
-    Vector2f offset;
 };
 
 };

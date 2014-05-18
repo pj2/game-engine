@@ -12,9 +12,9 @@ RenderComponent::~RenderComponent() {
     delete renderable;
 }
 
-void RenderComponent::render(SDL_Renderer *renderer, Vector2f &pos) {
+void RenderComponent::render() {
     if (visible)
-        renderable->render(renderer, pos);
+        renderable->render(owner->getPosition());
 }
 
 int RenderComponent::getType() const {

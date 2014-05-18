@@ -8,16 +8,15 @@ Author: Joshua Prendergast */
 
 namespace sight {
 
-Stave::Stave(Game *game) : Entity(game), arrangement(2) {
+Stave::Stave(Game *game) : Entity(game), length(8) {
     Texture *clef = new Texture(game->getRenderer(), "treble_clef.png");
     Texture *stave = new Texture(game->getRenderer(), "stave.png");
 
-    clef->setOffset(20, 30);
+    clef->setPosition(20, 30);
 
     addComponent(new RenderComponent(this, stave));
     addComponent(new RenderComponent(this, clef));
 
-    arrangement.randomize();
     refreshArrangement();
 }
 
@@ -37,17 +36,15 @@ void Stave::start() {
 void Stave::refreshArrangement() {
     Entity::destroyChildren();
 
-    int i = 0;
-    auto noteValues = arrangement.getNoteValues();
-    for (auto it = noteValues.begin(); it != noteValues.end(); ++it) {
-        int value = *it;
+    int offsets[] = {115, 103, 92, 79, 68, 55, 43};
+    for (int i = 0; i < length; i++) {
+        int value = (rand() % 24) / 2;
 
-        Note *note = new Note(game, this, value);
-        note->setLocalPosition((50 * i) + 100, (value * 9) - 5);
+        Note *note = new Note(game, this, value, 0);
+        note->setLocalPosition(120 + i * 55, 119 - (10 * value / 2) - (13 * (value + 1) / 2));
 
         addChild(note);
         game->addEntity(note);
-        i++;
     }
 }
 

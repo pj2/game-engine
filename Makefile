@@ -1,6 +1,6 @@
 CC=g++
 PROJECT=sight-reader
-LFLAGS=-L/usr/lib64 -lm -lSDL2 -lSDL2_image
+LFLAGS=-L/usr/lib64 -lm -lSDL2 -lSDL2_image -lSDL2_ttf
 CFLAGS=-Wall -std=gnu++0x -g -I/usr/include -Iinclude
 OBJS=$(patsubst %.cpp,%.o,$(wildcard *.cpp))
 
