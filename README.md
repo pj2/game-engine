@@ -1,4 +1,4 @@
-sight-reader
+game-engine
 ============
 
-Musical sight reading trainer
+SDL based 2D engine which I never finished.
